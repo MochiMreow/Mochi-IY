@@ -1,0 +1,35 @@
+local Plugin = {
+    ["PluginName"] = "ToSpawn",
+    ["PluginDescription"] = "Teleports you to spawn (a random one if multiple exist)",
+    ["Commands"] = {
+        ["tospawn"] = {
+            ["ListName"] = "tospawn",
+            ["Description"] = "Teleports you to worksoace spawn point",
+            ["Aliases"] = {"gotospawn"},
+            ["Function"] = function(args,speaker)
+							local spawnPoints = {}
+							for _, obj in pairs(workspace:GetDescendants()) do
+							    if obj:IsA("SpawnLocation") then
+							        table.insert(spawnPoints, obj)
+							    end
+							end
+							
+							if #spawnPoints > 0 then
+							    local randomSpawn = spawnPoints[math.random(1, #spawnPoints)]
+							    
+							    local character = game.Players.LocalPlayer.Character
+							    if character and randomSpawn then
+							        character:SetPrimaryPartCFrame(randomSpawn.CFrame)
+							    end
+							else
+							    local character = game.Players.LocalPlayer.Character
+							    if character then
+							        character:SetPrimaryPartCFrame(CFrame.new(0, 0, 0))
+							    end
+							end
+							            end
+        }
+    }
+}
+
+return Plugin
