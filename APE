@@ -1,0 +1,50 @@
+-- local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Define the function
+local Commands = {
+	["Function"] = function(args, speaker)
+		execCmd("chat ;reset", speaker)
+	end
+}
+
+-- Use a debounce per tool activation
+local hasReset = false
+
+-- Function to handle character and tool detection
+local function monitorTool()
+	RunService.RenderStepped:Connect(function()
+		local char = player.Character
+		if not char then return end
+
+		local tool = char:FindFirstChildOfClass("Tool")
+		if tool and tool.Name == "The Arkenstone" then
+			if not hasReset then
+				hasReset = true
+				Commands["Function"]({}, player)
+			end
+		else
+			hasReset = false
+		end
+	end)
+end
+
+-- Run initially
+monitorTool()
+
+-- Reconnect if character respawns
+player.CharacterAdded:Connect(function(char)
+	character = char
+	hasReset = false
+	monitorTool()
+end)
+
+return {
+	["PluginName"] = "Auto Perm Enlighten",
+	["PluginDescription"] = "Automatically perm enlightens you",
+	["Commands"] = {}
+}
+
