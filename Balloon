@@ -1,0 +1,61 @@
+local Plugin = {
+    ["PluginName"] = "Balloon",
+    ["PluginDescription"] = "Makes you float like a balloon.",
+    ["Commands"] = {
+        ["jumpballoon"] = {
+            ["ListName"] = "jumpballoon",
+            ["Description"] = "Jump before ballooning.",
+            ["Aliases"] = {"jballoon"},
+            ["Function"] = function(args, speaker)
+                local Players = game:GetService("Players")
+                local Workspace = game:GetService("Workspace")
+
+                local character = speaker.Character
+                if not character then return end
+
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if not humanoid then return end
+
+                -- Step 1: Jump
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+
+                -- Step 2: Wait 0.1 seconds, then disable gravity
+                task.wait(0.1)
+                Workspace.Gravity = 0
+
+                -- Step 3: Wait another 0.1 seconds, then sit
+                task.wait(0.1)
+                humanoid.Sit = true
+            end
+        },
+
+        ["pushballoon"] = {
+            ["ListName"] = "pushballoon",
+            ["Description"] = "Float forward like a balloon.",
+            ["Aliases"] = {"pballoon"},
+            ["Function"] = function(args, speaker)
+                local Workspace = game:GetService("Workspace")
+
+                local character = speaker.Character
+                if not character then return end
+
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                local rootPart = character:FindFirstChild("HumanoidRootPart")
+                if not humanoid or not rootPart then return end
+
+                -- Step 1: Disable gravity
+                Workspace.Gravity = 0
+
+                -- Step 2: Sit immediately
+                humanoid.Sit = true
+
+                -- Step 3: Wait, then apply forward velocity
+                task.wait(0.2)
+                local direction = rootPart.CFrame.LookVector
+                rootPart.Velocity = direction * 50 -- Adjust as needed
+            end
+        }
+    }
+}
+
+return Plugin
