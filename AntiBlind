@@ -1,0 +1,21 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local blind = playerGui:FindFirstChild("Blind")
+if blind then
+    blind:Destroy()
+    print("Blind GUI found and removed.")
+end
+
+playerGui.ChildAdded:Connect(function(child)
+    if child.Name == "Blind" then
+        child:Destroy()
+        print("Blind GUI detected on addition and removed.")
+    end
+end)
+
+return {
+	["PluginName"] = "Anti-Blind",
+	["PluginDescription"] = "Automatically deletes Blind Gui to prevent blindness.",
+	["Commands"] = {}
+}
