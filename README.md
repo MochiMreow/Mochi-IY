@@ -9,3 +9,6 @@ My shitty Infinite Yeild plugins :3
 
 > ### APE (Auto Perm Enlighten)
 > _Game Specific (The Chosen One)_ Automatically makes enlighten permanent if ever given.
+
+> ### AntiBlind
+> _Game Specific (The Chosen One)_ Automatically deletes blind Gui.
